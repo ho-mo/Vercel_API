@@ -1,5 +1,5 @@
 import { Readable } from "node:stream";  /////HGDHguaygrygwr 
-import { pipeline } from "node:stream/promises"; /////HGDHguaygrygwr 
+import { pipeline } from "node:stream/promises"; ///HGDHguaygrygwr
 
 export const config = {
   api: { bodyParser: false }, /////HGDHguaygrygwr 
@@ -9,7 +9,7 @@ export const config = {
 
 const TARGET_BASE = (process.env.TARGET_DOMAIN || "").replace(/\/$/, ""); /////HGDHguaygrygwr 
 
-const STRIP_HEADERS = new Set([
+const STRIP_HEADERS = new Set([  ///HGDHguaygrygwr
   "host",
   "connection",
   "keep-alive",
