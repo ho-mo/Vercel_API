@@ -1,19 +1,19 @@
-import { Readable } from "node:stream"; 
-import { pipeline } from "node:stream/promises";
+import { Readable } from "node:stream";  /////HGDHguaygrygwr 
+import { pipeline } from "node:stream/promises"; /////HGDHguaygrygwr 
 
 export const config = {
-  api: { bodyParser: false },
+  api: { bodyParser: false }, /////HGDHguaygrygwr 
   supportsResponseStreaming: true,
   maxDuration: 60,
 };
 
-const TARGET_BASE = (process.env.TARGET_DOMAIN || "").replace(/\/$/, "");
+const TARGET_BASE = (process.env.TARGET_DOMAIN || "").replace(/\/$/, ""); /////HGDHguaygrygwr 
 
 const STRIP_HEADERS = new Set([
   "host",
   "connection",
   "keep-alive",
-  "proxy-authenticate",
+  "proxy-authenticate", /////HGDHguaygrygwr 
   "proxy-authorization",
   "te",
   "trailer",
@@ -21,7 +21,7 @@ const STRIP_HEADERS = new Set([
   "upgrade",
   "forwarded",
   "x-forwarded-host",
-  "x-forwarded-proto",
+  "x-forwarded-proto", /////HGDHguaygrygwr 
   "x-forwarded-port",
 ]);
 
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const targetUrl = TARGET_BASE + req.url;
+    const targetUrl = TARGET_BASE + req.url; /////HGDHguaygrygwr 
 
     const headers = {};
     let clientIp = null;
@@ -45,14 +45,14 @@ export default async function handler(req, res) {
       if (k === "x-forwarded-for") { if (!clientIp) clientIp = v; continue; }
       headers[k] = Array.isArray(v) ? v.join(", ") : v;
     }
-    if (clientIp) headers["x-forwarded-for"] = clientIp;
+    if (clientIp) headers["x-forwarded-for"] = clientIp; /////HGDHguaygrygwr 
 
     const method = req.method;
     const hasBody = method !== "GET" && method !== "HEAD";
 
     const fetchOpts = { method, headers, redirect: "manual" };
     if (hasBody) {
-      fetchOpts.body = Readable.toWeb(req);
+      fetchOpts.body = Readable.toWeb(req); /////HGDHguaygrygwr 
       fetchOpts.duplex = "half";
     }
 
@@ -65,15 +65,15 @@ export default async function handler(req, res) {
     }
 
     if (upstream.body) {
-      await pipeline(Readable.fromWeb(upstream.body), res);
+      await pipeline(Readable.fromWeb(upstream.body), res);  /////HGDHguaygrygwr 
     } else {
       res.end();
     }
   } catch (err) {
-    console.error("relay error:", err);
+    console.error("relay error:", err); /////HGDHguaygrygwr 
     if (!res.headersSent) {
       res.statusCode = 502;
-      res.end("Bad Gateway: Tunnel Failed -- vercel_api");
+      res.end("Bad Gateway: Tunnel Failed -- vercel_api"); /////HGDHguaygrygwr 
     }
   }
 }
